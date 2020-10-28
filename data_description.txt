@@ -1,0 +1,21 @@
+Esta base de datos se construyó a partir de señales contenidas en el subset 2 (SS2) de la base de datos MASS (Montreal Archive of Sleep Studies):
+https://www.ncbi.nlm.nih.gov/pubmed/24909981
+
+MASS-SS2 consiste en registros polisomnográficos de noche completa de 19 adultos jóvenes, de los cuales se seleccionaron los 15 que poseían anotaciones de husos de sueño de acuerdo a dos expertos en sueño.
+
+La presente base de datos consiste en segmentos de 4 segundos de duración de un solo canal de EEG (C3-CLE), que contienen un huso de sueño en su interior.
+Las señales fueron filtradas por un filtro pasabanda entre 0.1 y 35 Hz y remuestreadas a 200Hz antes de la extracción de segmentos.
+
+La base de datos se encuentra divida en train, val, y test, que no comparten sujetos entre sí. Para train se utilizaron 8 sujetos, para val 3, y para test 4.
+
+El formato de los archivos es el siguiente:
+
+<set_name>_signals.npy: Numpy array con dtype float32 y con dimensiones (n_segments, time_len), donde n_segments es el numero de segmentos del set, y time_len corresponde a segmentos de 4 segundos (800 muestras) de EEG, cuyos valores están en microvolts.
+
+<set_name>_marks.npy: Numpy array con dtype int32 y con dimensiones (n_segments, 2), donde n_segments es el numero de segmentos del set en correspondencia con <set_name>_signals.npy, y donde cada segmento posee dos valores que indican la marca: la muestra de inicio y la muestra de término del huso de sueño, cuyos valores están en el rango (0, 799).
+
+Un algoritmo que simultáneamente detectó y localizó estos husos de sueño a partir de los registros de noche completa, utilizando los mismos sujetos anteriores para train/val/test, obtuvo el siguiente IoU promedio:
+Train IoU: 0.8480
+Val IoU:   0.8402
+Test IoU:  0.8401
+
